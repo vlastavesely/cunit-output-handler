@@ -19,9 +19,22 @@ static void cunit_minimal_test_complete_msg_handler(struct CU_Test *test,
 	fflush(stdout);
 }
 
+static void cunit_minimal_show_failures(struct CU_FailureRecord *failure)
+{
+	int i;
+
+	for (i = 1; failure; failure = failure->pNext)
+		fprintf(stdout, "  %d. %s:%d  - %s\n", i++,
+			failure->strFileName, failure->uiLineNumber,
+			failure->strCondition);
+}
+
 static void cunit_minimal_all_tests_complete_msg_handler(struct CU_FailureRecord *failure)
 {
 	fprintf(stdout, "\n-------------------------------------\n");
+
+	if (failure)
+		cunit_minimal_show_failures(failure);
 }
 
 static CU_ErrorCode cunit_minimal_initialize(void)
