@@ -55,6 +55,9 @@ static CU_ErrorCode cunit_minimal_initialize(void)
 {
 	CU_set_error(CUE_SUCCESS);
 
+	fprintf(stdout, " ____ _  _ __ _ _ ___\n");
+	fprintf(stdout, " |___ |__| | \\| |  |  %s\n\n", CU_VERSION);
+
 	CU_set_test_start_handler(cunit_minimal_test_start_msg_handler);
 	CU_set_test_complete_handler(cunit_minimal_test_complete_msg_handler);
 	CU_set_all_test_complete_handler(cunit_minimal_all_tests_complete_msg_handler);
