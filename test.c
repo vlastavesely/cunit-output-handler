@@ -1,7 +1,8 @@
+#include <unistd.h>
 #include <CUnit/CUnit.h>
 #include "cunit-minimal.h"
 
-static testval = 11;
+static int testval = 11;
 
 static void test_passing(void)
 {
