@@ -1,6 +1,8 @@
 #include <CUnit/CUnit.h>
 #include "cunit-minimal.h"
 
+static testval = 11;
+
 static void test_passing(void)
 {
 	CU_ASSERT_EQUAL(11, 11);
@@ -9,7 +11,7 @@ static void test_passing(void)
 
 static void test_failing(void)
 {
-	CU_ASSERT_EQUAL(11, 1);
+	CU_ASSERT_EQUAL(11, testval);
 }
 
 static void cunit_add_tests(struct CU_Suite *suite)
@@ -47,6 +49,9 @@ int main(int argc, const char **argv)
 	CU_initialize_registry();
 	suite = CU_add_suite("suite", NULL, NULL);
 	cunit_add_tests(suite);
+
+	if (argc > 1 && argv[1])
+		testval = 1;
 
 	code = CU_minimal_run_tests();
 	CU_cleanup_registry();

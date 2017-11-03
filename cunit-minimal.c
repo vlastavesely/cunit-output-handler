@@ -21,20 +21,34 @@ static void cunit_minimal_test_complete_msg_handler(struct CU_Test *test,
 
 static void cunit_minimal_show_failures(struct CU_FailureRecord *failure)
 {
-	int i;
-
-	for (i = 1; failure; failure = failure->pNext)
-		fprintf(stdout, "  %d. %s:%d  - %s\n", i++,
+	while (failure) {
+		fprintf(stdout, "\x1b[31;1m-- FAILED %s:%d\x1b[0m\n   %s\x1b[0m\n\n",
 			failure->strFileName, failure->uiLineNumber,
 			failure->strCondition);
+		failure = failure->pNext;
+	}
+}
+
+static void cunit_minimal_show_summary(void)
+{
+	struct CU_RunSummary *summary = CU_get_run_summary();
+
+	if (summary->nFailureRecords)
+		fprintf(stdout, "\x1b[41;1mFAILURES! (%d tests, %d failures, %1.3f seconds)\x1b[0m\n",
+			summary->nTestsRun, summary->nTestsFailed, summary->ElapsedTime);
+	else
+		fprintf(stdout, "\x1b[42;1mOK (%d tests, %1.3f seconds)\x1b[0m\n",
+			summary->nTestsRun, summary->ElapsedTime);
 }
 
 static void cunit_minimal_all_tests_complete_msg_handler(struct CU_FailureRecord *failure)
 {
-	fprintf(stdout, "\n-------------------------------------\n");
+	fprintf(stdout, "\n\n");
 
 	if (failure)
 		cunit_minimal_show_failures(failure);
+
+	cunit_minimal_show_summary();
 }
 
 static CU_ErrorCode cunit_minimal_initialize(void)
