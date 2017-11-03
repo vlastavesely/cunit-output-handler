@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <CUnit/CUnit.h>
-#include "cunit-minimal.h"
+#include "cunit-colorful.h"
 
 static int testval = 11;
 
@@ -54,7 +54,7 @@ int main(int argc, const char **argv)
 	if (argc > 1 && argv[1])
 		testval = 1;
 
-	code = CU_minimal_run_tests();
+	code = CU_colorful_run_tests();
 	CU_cleanup_registry();
 
 	return code;

@@ -1,14 +1,13 @@
 #include <assert.h>
-#include "cunit-minimal.h"
+#include "cunit-colorful.h"
 
-
-static void cunit_minimal_test_start_msg_handler(struct CU_Test *test,
+static void cunit_colorful_test_start_msg_handler(struct CU_Test *test,
 		struct CU_Suite *suite)
 {
 	/* nothing */
 }
 
-static void cunit_minimal_test_complete_msg_handler(struct CU_Test *test,
+static void cunit_colorful_test_complete_msg_handler(struct CU_Test *test,
 		struct CU_Suite *suite,
 		struct CU_FailureRecord *failures)
 {
@@ -19,7 +18,7 @@ static void cunit_minimal_test_complete_msg_handler(struct CU_Test *test,
 	fflush(stdout);
 }
 
-static void cunit_minimal_show_failures(struct CU_FailureRecord *failure)
+static void cunit_colorful_show_failures(struct CU_FailureRecord *failure)
 {
 	while (failure) {
 		fprintf(stdout, "\x1b[31;1m-- FAILED %s:%d\x1b[0m\n   %s\x1b[0m\n\n",
@@ -29,7 +28,7 @@ static void cunit_minimal_show_failures(struct CU_FailureRecord *failure)
 	}
 }
 
-static void cunit_minimal_show_summary(void)
+static void cunit_colorful_show_summary(void)
 {
 	struct CU_RunSummary *summary = CU_get_run_summary();
 
@@ -41,36 +40,36 @@ static void cunit_minimal_show_summary(void)
 			summary->nTestsRun, summary->ElapsedTime);
 }
 
-static void cunit_minimal_all_tests_complete_msg_handler(struct CU_FailureRecord *failure)
+static void cunit_colorful_all_tests_complete_msg_handler(struct CU_FailureRecord *failure)
 {
 	fprintf(stdout, "\n\n");
 
 	if (failure)
-		cunit_minimal_show_failures(failure);
+		cunit_colorful_show_failures(failure);
 
-	cunit_minimal_show_summary();
+	cunit_colorful_show_summary();
 }
 
-static CU_ErrorCode cunit_minimal_initialize(void)
+static CU_ErrorCode cunit_colorful_initialize(void)
 {
 	CU_set_error(CUE_SUCCESS);
 
 	fprintf(stdout, " ____ _  _ __ _ _ ___\n");
 	fprintf(stdout, " |___ |__| | \\| |  |  %s\n\n", CU_VERSION);
 
-	CU_set_test_start_handler(cunit_minimal_test_start_msg_handler);
-	CU_set_test_complete_handler(cunit_minimal_test_complete_msg_handler);
-	CU_set_all_test_complete_handler(cunit_minimal_all_tests_complete_msg_handler);
+	CU_set_test_start_handler(cunit_colorful_test_start_msg_handler);
+	CU_set_test_complete_handler(cunit_colorful_test_complete_msg_handler);
+	CU_set_all_test_complete_handler(cunit_colorful_all_tests_complete_msg_handler);
 
 	return CU_get_error();
 }
 
-CU_ErrorCode CU_minimal_run_tests(void)
+CU_ErrorCode CU_colorful_run_tests(void)
 {
 	CU_ErrorCode error;
 
 	if (CU_get_registry() == NULL)
 		return CUE_NOREGISTRY;
-	else if ((error = cunit_minimal_initialize()) == CUE_SUCCESS)
+	else if ((error = cunit_colorful_initialize()) == CUE_SUCCESS)
 		return CU_run_all_tests();
 }
