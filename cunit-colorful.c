@@ -27,11 +27,14 @@ static void cunit_colorful_show_summary(void)
 	struct CU_RunSummary *summary = CU_get_run_summary();
 
 	if (summary->nFailureRecords)
-		fprintf(stdout, "\x1b[41;1mFAILURES! (%d tests, %d failures, %1.3f seconds)\x1b[0m\n",
-			summary->nTestsRun, summary->nTestsFailed, summary->ElapsedTime);
+		fprintf(stdout, "\x1b[41;1mFAILURES! (%d test%s, %d failure%s, %1.3f seconds)\x1b[0m\n",
+			summary->nTestsRun, summary->nTestsRun == 1 ? "" : "s",
+			summary->nTestsFailed, summary->nTestsFailed == 1 ? "" : "s",
+			summary->ElapsedTime);
 	else
-		fprintf(stdout, "\x1b[42;1mOK (%d tests, %1.3f seconds)\x1b[0m\n",
-			summary->nTestsRun, summary->ElapsedTime);
+		fprintf(stdout, "\x1b[42;1mOK (%d test%s, %1.3f seconds)\x1b[0m\n",
+			summary->nTestsRun, summary->nTestsRun == 1 ? "" : "s",
+			summary->ElapsedTime);
 }
 
 static void cunit_colorful_all_tests_complete_msg_handler(struct CU_FailureRecord *failure)
