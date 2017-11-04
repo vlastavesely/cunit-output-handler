@@ -1,12 +1,6 @@
 #include <assert.h>
 #include "cunit-colorful.h"
 
-static void cunit_colorful_test_start_msg_handler(struct CU_Test *test,
-		struct CU_Suite *suite)
-{
-	/* nothing */
-}
-
 static void cunit_colorful_test_complete_msg_handler(struct CU_Test *test,
 		struct CU_Suite *suite,
 		struct CU_FailureRecord *failures)
@@ -57,9 +51,15 @@ static CU_ErrorCode cunit_colorful_initialize(void)
 	fprintf(stdout, " ____ _  _ __ _ _ ___\n");
 	fprintf(stdout, " |___ |__| | \\| |  |  %s\n\n", CU_VERSION);
 
-	CU_set_test_start_handler(cunit_colorful_test_start_msg_handler);
+	CU_set_test_start_handler(NULL);
 	CU_set_test_complete_handler(cunit_colorful_test_complete_msg_handler);
 	CU_set_all_test_complete_handler(cunit_colorful_all_tests_complete_msg_handler);
+	/*
+	 * If an assertion failed, we want to ignore the failure and keep
+	 * the testing process running (if possible).
+	 */
+	CU_set_error_action(CUEA_IGNORE);
+
 
 	return CU_get_error();
 }
