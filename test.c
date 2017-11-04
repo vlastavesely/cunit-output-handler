@@ -1,3 +1,13 @@
+/*
+ * This is a demo program using an output handler for CUnit that aims
+ * to mimic the Nette Tester (PHP unit testing framework).
+ *
+ * The program creates a demo CUnit test suite. It adds some dummy tests
+ * that can be made failing (by setting the global variable `testval`
+ * to a value different from 11) and runs the suite to show customized
+ * CUnit's output.
+ */
+
 #include <unistd.h>
 #include <CUnit/CUnit.h>
 #include "cunit-colorful.h"
@@ -12,7 +22,13 @@ static void test_passing(void)
 
 static void test_failing(void)
 {
+	/*
+	 * If you want to have this test failing, set variable
+	 * `testval` to value different from 11 in your `main()`
+	 * function.
+	 */
 	CU_ASSERT_EQUAL(11, testval);
+	usleep(10 * 1000);
 }
 
 static void cunit_add_tests(struct CU_Suite *suite)
@@ -30,13 +46,13 @@ static void cunit_add_tests(struct CU_Suite *suite)
 	CU_add_test(suite, "purus_sodales_eget", test_passing);
 	CU_add_test(suite, "curabitur_non_tortor_eu_diam_viverra_eleifend", test_passing);
 	CU_add_test(suite, "etiam_pulvinar_purus_nunc", test_passing);
-	CU_add_test(suite, "a_molestie_ante_semper_tempor", test_failing);
+	CU_add_test(suite, "a_molestie_ante_semper_tempor", test_failing); /* may be made failing */
 	CU_add_test(suite, "nam_porttitor_ipsum_id_ultricies_finibus", test_passing);
 	CU_add_test(suite, "donec_nulla eros", test_passing);
 	CU_add_test(suite, "gravida_id_maximus_pellentesque", test_passing);
 	CU_add_test(suite, "malesuada_id_risus", test_passing);
 	CU_add_test(suite, "ut_finibus_ligula_est_et_blandit_elit_molestie_eget", test_passing);
-	CU_add_test(suite, "etiam_suscipit_ipsum_sagittis", test_failing);
+	CU_add_test(suite, "etiam_suscipit_ipsum_sagittis", test_failing); /* may be made failing */
 	CU_add_test(suite, "quam_scelerisque", test_passing);
 	CU_add_test(suite, "at_ornare", test_passing);
 	CU_add_test(suite, "tortor_pharetra_cras_non_elit_erat", test_passing);
@@ -54,6 +70,10 @@ int main(int argc, const char **argv)
 	if (argc > 1 && argv[1])
 		testval = 1;
 
+	/*
+	 * If some test has failed, return code will be
+	 * a non-zero value.
+	 */
 	code = CU_colorful_run_tests();
 	CU_cleanup_registry();
 

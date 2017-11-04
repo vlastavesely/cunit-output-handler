@@ -58,8 +58,8 @@ static CU_ErrorCode cunit_colorful_initialize(void)
 	CU_set_test_complete_handler(cunit_colorful_test_complete_msg_handler);
 	CU_set_all_test_complete_handler(cunit_colorful_all_tests_complete_msg_handler);
 	/*
-	 * If an assertion failed, we want to ignore the failure and keep
-	 * the testing process running (if possible).
+	 * If any assertion has failed, we want to ignore the failure
+	 * and keep the testing process running (if possible).
 	 */
 	CU_set_error_action(CUEA_IGNORE);
 
