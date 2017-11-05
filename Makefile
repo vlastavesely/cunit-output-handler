@@ -1,4 +1,4 @@
 all:
-	$(CC) test.c cunit-colorful.c -o test -lcunit
-	-./test f
-	-./test
+	$(CC) demo.c cunit-colorful.c -o demo -lcunit
+	-./demo f
+	-./demo
