@@ -1,3 +1,13 @@
+/*
+ * cunit-colorful.c - colored output handler for cUnit framework.
+ *
+ * Copyright (C) 2017  Vlasta Vesely <vlastavesely@protonmail.ch>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
 #include <assert.h>
 #include "cunit-colorful.h"
 
@@ -27,12 +37,15 @@ static void cunit_colorful_show_summary(void)
 	struct CU_RunSummary *summary = CU_get_run_summary();
 
 	if (summary->nFailureRecords)
-		fprintf(stdout, "\x1b[41;1mFAILURES! (%d test%s, %d failure%s, %1.3f seconds)\x1b[0m\n",
+		fprintf(stdout,
+			"\x1b[41;1mFAILURES! (%d test%s, %d failure%s, %1.3f seconds)\x1b[0m\n",
 			summary->nTestsRun, summary->nTestsRun == 1 ? "" : "s",
-			summary->nTestsFailed, summary->nTestsFailed == 1 ? "" : "s",
+			summary->nTestsFailed,
+			summary->nTestsFailed == 1 ? "" : "s",
 			summary->ElapsedTime);
 	else
-		fprintf(stdout, "\x1b[42;1mOK (%d test%s, %1.3f seconds)\x1b[0m\n",
+		fprintf(stdout,
+			"\x1b[42;1mOK (%d test%s, %1.3f seconds)\x1b[0m\n",
 			summary->nTestsRun, summary->nTestsRun == 1 ? "" : "s",
 			summary->ElapsedTime);
 }
