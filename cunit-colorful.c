@@ -76,8 +76,8 @@ CU_ErrorCode CU_colorful_run_tests(void)
 		error = CU_run_all_tests();
 
 	/*
-	 * If any of the tests have failed, we do not want to get
-	 * a zero return code.
+	 * If any test has failed, we do *not* want to get a zero
+	 * return code.
 	 */
 	return CU_get_failure_list() ? -1 : error;
 }
