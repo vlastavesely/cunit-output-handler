@@ -16,8 +16,17 @@ static int testval = 11;
 
 static void test_passing(void)
 {
+	int i;
 	CU_ASSERT_EQUAL(11, 11);
-	usleep(10 * 1000);
+	/*
+	 * Do some work to make visible delays between the tests. We
+	 * cannot just use `usleep()` function here for CUnit measures
+	 * elapsed time with `clock()` function that measures processor
+	 * time but not real seconds. For that reason, we need to make
+	 * the program really do something...
+	 */
+	for(i = 0; i < 10000000; i++)
+		;
 }
 
 static void test_failing(void)
@@ -28,7 +37,6 @@ static void test_failing(void)
 	 * function.
 	 */
 	CU_ASSERT_EQUAL(11, testval);
-	usleep(10 * 1000);
 }
 
 static void cunit_add_tests(struct CU_Suite *suite)
