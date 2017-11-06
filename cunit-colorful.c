@@ -81,16 +81,22 @@ static CU_ErrorCode cunit_colorful_initialize(void)
 
 CU_ErrorCode CU_colorful_run_tests(void)
 {
-	CU_ErrorCode error;
+	CU_ErrorCode code;
 
 	if (CU_get_registry() == NULL)
 		return CUE_NOREGISTRY;
-	else if ((error = cunit_colorful_initialize()) == CUE_SUCCESS)
-		error = CU_run_all_tests();
 
-	/*
-	 * If any test has failed, we do *not* want to get a zero
-	 * return code.
-	 */
-	return CU_get_failure_list() ? -1 : error;
+	if ((code = cunit_colorful_initialize()) == CUE_SUCCESS) {
+		code = CU_run_all_tests();
+
+		/*
+		 * If any test has failed, we do *not* want to get a zero
+		 * return code.
+		 */
+		if (CU_get_failure_list())
+			code = -1;
+		CU_set_error(code);
+	}
+
+	return code;
 }
