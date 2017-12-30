@@ -37,6 +37,8 @@ static void test_failing(void)
 	 * function.
 	 */
 	CU_ASSERT_EQUAL(11, testval);
+
+	usleep(500 * 1000);
 }
 
 static int cunit_add_tests(struct CU_Suite *suite)
